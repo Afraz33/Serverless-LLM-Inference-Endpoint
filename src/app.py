@@ -54,7 +54,7 @@ def lambda_handler(event, context):
 
 
 def build_response(status_code, message):
-    """Helper to format API Gateway responses."""
+
     return {
         "statusCode": status_code,
         "headers": {"Content-Type": "application/json"},
