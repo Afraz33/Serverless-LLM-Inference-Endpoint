@@ -8,47 +8,39 @@ from botocore.exceptions import ClientError
 bedrock = boto3.client(service_name="bedrock-runtime", region_name="us-east-1")
 
 
+bedrock = boto3.client(service_name='bedrock-runtime')
+
+
 def lambda_handler(event, context):
-
     try:
-        body = json.loads(event.get("body", "{}"))
-        prompt = body.get("prompt")
-    except (json.JSONDecodeError, AttributeError):
-        return build_response(400, "Invalid JSON input")
+        body = json.loads(event.get('body', '{}'))
+        user_prompt = body.get('prompt', 'Hello!')
 
-    if not prompt:
-        return build_response(400, "Missing 'prompt' in request body")
-
-    if os.environ.get("MOCK_MODE") == "true":
-        return build_response(200, f"MOCK RESPONSE: Your prompt was '{prompt}'")
-
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
-
-    payload = {
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 500,
-        "messages": [
-            {
-                "role": "user",
-                "content": [{"type": "text", "text": prompt}]
+        # Amazon Titan payload structure
+        native_request = {
+            "inputText": user_prompt,
+            "textGenerationConfig": {
+                "maxTokenCount": 512,
+                "temperature": 0.5,
             }
-        ]
-    }
+        }
 
-    try:
-        # response = bedrock.invoke_model(
-        #     modelId=model_id,
-        #     body=json.dumps(payload)
-        # )
+        response = bedrock.invoke_model(
+            modelId="amazon.titan-text-lite-v1",
+            body=json.dumps(native_request)
+        )
 
-        # result = json.loads(response.get("body").read())
-        # output_text = result["content"][0]["text"]
-        output_text = "This is a placeholder response from the model."
-        return build_response(200, output_text)
+        model_response = json.loads(response['body'].read())
+        # Titan returns 'results' list
+        response_text = model_response['results'][0]['outputText']
 
-    except ClientError as e:
-        print(f"Error: {e}")
-        return build_response(500, "Internal Server Error during model inference")
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'completion': response_text})
+        }
+    except Exception as e:
+        return {'statusCode': 500, 'body': json.dumps({'error': str(e)})}
 
 
 def build_response(status_code, message):
