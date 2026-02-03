@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: SAM Template for Lambda + Bedrock (Claude 3)
+
+Resources:
+  BedrockChatFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      CodeUri: ./
+      MemorySize: 256
+      Timeout: 30
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: "bedrock:InvokeModel"
+              Resource: "arn:aws:bedrock:*::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+      Events:
+        ChatApi:
+          Type: Api
+          Properties:
+            Path: /chat
+            Method: post
+
+Outputs:
+  ChatApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/chat/"
