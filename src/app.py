@@ -22,7 +22,7 @@ def lambda_handler(event, context):
 
         # 2. Llama 3.1 Payload Structure
         # Note: Llama 3.1 8B Instruct Model ID
-        model_id = "meta.llama3-1-8b-instruct-v1:0"
+        model_id = "us.meta.llama3-1-8b-instruct-v1:0"
 
         native_request = {
             "prompt": f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
