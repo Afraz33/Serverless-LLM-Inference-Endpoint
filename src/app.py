@@ -1,5 +1,6 @@
 import json
 import os
+from unittest import result
 import boto3
 from botocore.exceptions import ClientError
 
@@ -35,14 +36,14 @@ def lambda_handler(event, context):
     }
 
     try:
-        response = bedrock.invoke_model(
-            modelId=model_id,
-            body=json.dumps(payload)
-        )
+        # response = bedrock.invoke_model(
+        #     modelId=model_id,
+        #     body=json.dumps(payload)
+        # )
 
-        result = json.loads(response.get("body").read())
-        output_text = result["content"][0]["text"]
-
+        # result = json.loads(response.get("body").read())
+        # output_text = result["content"][0]["text"]
+        output_text = "This is a placeholder response from the model."
         return build_response(200, output_text)
 
     except ClientError as e:
