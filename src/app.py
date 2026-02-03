@@ -8,9 +8,6 @@ bedrock = boto3.client(service_name="bedrock-runtime", region_name="us-east-1")
 
 
 def lambda_handler(event, context):
-    """
-    Minimal Lambda handler for Bedrock inference.
-    """
 
     try:
         body = json.loads(event.get("body", "{}"))
