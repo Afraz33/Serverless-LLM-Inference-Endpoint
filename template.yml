@@ -16,8 +16,8 @@ Resources:
             - Effect: Allow
               Action: "bedrock:InvokeModel"
               Resource:
-                - "arn:aws:bedrock:us-east-1:*:inference-profile/us.meta.llama3-1-8b-instruct-v1:0"
-                - "arn:aws:bedrock:us-east-1::foundation-model/meta.llama3-1-8b-instruct-v1:0"
+                - "arn:aws:bedrock:*:*:inference-profile/us.meta.llama3-1-8b-instruct-v1:0"
+                - "arn:aws:bedrock:*::foundation-model/meta.llama3-1-8b-instruct-v1:0"
       Events:
         ChatApi:
           Type: Api
