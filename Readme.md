@@ -58,11 +58,11 @@ If I were taking this further, the priorities would be:
 4. Add proper error handling and retry logic for Bedrock calls
 5. Make model parameters configurable through request body
 6. Set up CloudWatch alarms for cost anomalies and throttling
-7. **Async processing for long-running requests** - For prompts that take longer to process, could use Step Functions or EventBridge to handle async workflows and notify users when complete
+7. **Async processing for long-running requests** For prompts that take longer to process, could use Step Functions or EventBridge to handle async workflows and notify users when complete
 8. Consider caching for repeated queries with ElastiCache
 9. Make it multi-region.
 
-The current implementation is fully synchronous - API Gateway waits for Lambda, Lambda waits for Bedrock, then everything returns.
+The current implementation is fully synchronous, API Gateway waits for Lambda, Lambda waits for Bedrock, then everything returns.
 
 ## Setup
 
