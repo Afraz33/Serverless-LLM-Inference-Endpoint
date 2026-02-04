@@ -56,12 +56,3 @@ def build_response(status_code, body):
         },
         'body': json.dumps(body)
     }
-
-
-def build_response(status_code, message):
-
-    return {
-        "statusCode": status_code,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"response": message})
-    }
