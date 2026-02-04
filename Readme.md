@@ -79,7 +79,3 @@ curl -X POST https://your-api-url/Prod/chat/ \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Hello, how are you?"}'
 ```
-
----
-
-**Note**: The code currently has a placeholder response. Uncomment the Bedrock API call in `app.py` once you have model access enabled in your AWS account.
