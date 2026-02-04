@@ -39,7 +39,7 @@ def lambda_handler(event, context):
         # # 4. Parse Response
         # response_body = json.loads(response['body'].read())
         # generation = response_body.get('generation', '')
-        print(var)
+        # print(var)
         generation = "This is a placeholder response from the Llama 3.1 model."
         return build_response(200, {'completion': generation})
 
