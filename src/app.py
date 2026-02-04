@@ -31,15 +31,15 @@ def lambda_handler(event, context):
         }
 
         # 3. Invoke Bedrock
-        response = bedrock.invoke_model(
-            modelId=model_id,
-            body=json.dumps(native_request)
-        )
+        # response = bedrock.invoke_model(
+        #     modelId=model_id,
+        #     body=json.dumps(native_request)
+        # )
 
-        # 4. Parse Response
-        response_body = json.loads(response['body'].read())
-        generation = response_body.get('generation', '')
-
+        # # 4. Parse Response
+        # response_body = json.loads(response['body'].read())
+        # generation = response_body.get('generation', '')
+        generation = "This is a placeholder response from the Llama 3.1 model."
         return build_response(200, {'completion': generation})
 
     except Exception as e:
