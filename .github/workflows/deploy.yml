@@ -9,7 +9,28 @@ permissions:
   contents: read
 
 jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install Linting Tools
+        run: |
+          pip install flake8
+
+      - name: Run Linting
+
+        run: |
+          # Stop the build if there are Python syntax errors or undefined names
+          flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Exit-zero treats all errors as warnings (for style) to keep the demo smooth
+          flake8 src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
   deploy:
+    needs: quality-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
